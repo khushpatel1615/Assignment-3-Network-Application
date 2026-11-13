@@ -2,7 +2,7 @@ console.log("hello world");
 
 const helloWorldBox = document.getElementById("hello-world");
 const postBox = document.getElementById("posts-box");
-
+const spinnerBox = document.getElementById("spinner-box");
 helloWorldBox.innerHTML= 'hello <b>world</b>';
 
 $.ajax({
@@ -23,15 +23,19 @@ $.ajax({
     success: function (response){
     console.log(response)
     const data = response.data
+    setTimeout(() =>{
+        spinnerBox.classList.add('not-visible')
     console.log(data)     
     data.forEach(el => {
         postBox.innerHTML += `
-        ${el.title} - <b>${el.body}</b></br>
+        ${el.title} - <b>${el.body}</b><br>
         `;
     });
+    },100)
     },
 
     error: function(error){
+        spinnerBox.classList.add('not-visible')
         console.log(error)
     }
 })
