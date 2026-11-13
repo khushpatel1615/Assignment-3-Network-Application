@@ -15,12 +15,19 @@ def post_list_and_create(request):
             instance = form.save(commit= False)
             instance.author = author
             instance.save()
+            return JsonResponse({
+                'title': instance.title,
+                'body': instance.body,
+                'author': instance.author.user.username,
+                'id':instance.id,
+            })
     return render(request, 'posts/main.html', context= {
         'form': form,
     }  )
 
 def load_post_data_view(request, num_posts):
-    visible = 3
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        visible = 3
     upper = num_posts #9
     lower = upper - visible #6 video comment 
     size = Post.objects.all().count()
