@@ -8,7 +8,7 @@ class Post(models.Model):
     body = models.TextField()
     liked = models.ManyToManyField(User, blank=True)
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    upadted = models.DateTimeField(auto_now=True)
+    upadted  = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
