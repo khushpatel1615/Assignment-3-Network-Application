@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from .forms import PostForm
 from profiles.models import Profile
@@ -83,6 +83,7 @@ def like_unlike_post(request):
             liked = True
             obj.liked.add(request.user)
         return JsonResponse({'liked': liked, 'count' : obj.like_count})
+    return redirect('posts:main-board')
 # def hello_world_view(request):
 #     return JsonResponse({'text': 'hello world x2'})
 @login_required
@@ -99,7 +100,7 @@ def update_post(request, pk):
             'title': new_title,
             'body': new_body,
         })
-    return JsonResponse({})
+    return redirect('posts:main-board')
 @login_required
 @action_permission
 def delete_post(request, pk):
@@ -107,7 +108,8 @@ def delete_post(request, pk):
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         obj.delete()
-    return JsonResponse({'msg': 'access denied - ajax only'})
+        return JsonResponse({})
+    return redirect('posts:main-board')
 @login_required
 def image_upload_view(request):
 # print(request.FILES)
